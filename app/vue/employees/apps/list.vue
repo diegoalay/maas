@@ -69,7 +69,8 @@
             },
 
             deleteRecord(id){
-                const url = this.url.build('employees/:id', {id: id})
+                const url = `/employees/${id}.json`
+
                 this.http.delete(url).then(result => {
                     if (result.successful) {
                         this.data = this.data.filter(e => e.id !== id)
