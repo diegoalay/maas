@@ -25,6 +25,25 @@
       </b-navbar-nav>
 
       <b-navbar-nav>
+        <b-nav-item-dropdown class="left-nav-item" text="Servicios" class="ml-5" right>
+          <li>
+            <%= navigation_vue_item("/services") do %>
+              <i class="fas fa-bars"></i>
+              &nbsp;
+              <span> Listado </span>
+            <% end %>
+          </li>
+          <li>
+            <%= navigation_vue_item("/services/new") do %>
+              <i class="fas fa-plus"></i>
+              &nbsp;
+              <span> Crear </span>
+            <% end %>
+          </li>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+
+      <b-navbar-nav>
         <b-nav-item-dropdown class="left-nav-item" text="Turnos" right>
           <li>
             <%= navigation_vue_item("/products") do %>
