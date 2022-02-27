@@ -27,7 +27,8 @@ export default {
 
             this.http.post(url, {employee: this.employee}).then(result => {
                 if (result.successful) {
-                    this.$toast.success('Employee created successfully.')
+                    this.$toast.success('Empleado creado exitosamente.')
+
                     this.$router.push(`/employees/${result.data.id}`)
                 } else {
                     this.$toast.error(result.error.message)
@@ -41,7 +42,7 @@ export default {
 
             this.http.put(url, {employee: this.employee}).then(result => {
                 if (result.successful) {
-                    this.$toast.success('Employee updated successfully.')
+                    this.$toast.success('Empleado actualizad exitosamente.')
                 } else {
                     this.$toast.error(result.error.message)
                 }
@@ -61,7 +62,7 @@ export default {
                     <b-col sm="12">
                         <b-form-group>
                             <template #label>
-                                First Name <sup class="text-danger">*</sup>
+                                Nombre <sup class="text-danger">*</sup>
                             </template>
 
                             <b-form-input
@@ -77,7 +78,7 @@ export default {
                     <b-col sm="12">
                         <b-form-group>
                             <template #label>
-                                Last Name <sup class="text-danger">*</sup>
+                                Apellido <sup class="text-danger">*</sup>
                             </template>
 
                             <b-form-input
