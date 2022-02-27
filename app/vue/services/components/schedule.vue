@@ -111,6 +111,17 @@ export default {
             }]
         },
 
+        startAtHours(){
+            return this.options.hours.filter((e) => e.value !== 24)
+        },
+
+        endAtHours(){
+            let options = this.options.hours.filter((e) => e.value !== 0)
+            options[23].text = '00:00'
+
+            return options
+        },
+
         hours(){
             let hours = []
             for (let i=0; i<=24; i++){
@@ -171,7 +182,7 @@ export default {
                                     @change="validateEndAt(index)"
                                     :disabled="!days[index].status"
                                     v-model="days[index].start_at"
-                                    :options="options.hours"
+                                    :options="startAtHours()"
                                 >
                                 </b-form-select>
                             </b-input-group>
@@ -185,7 +196,7 @@ export default {
                                     @change="validateEndAt(index)"
                                     :disabled="!days[index].status"
                                     v-model="days[index].end_at"
-                                    :options="options.hours"
+                                    :options="endAtHours()"
                                 >
                                 </b-form-select>
                             </b-input-group>

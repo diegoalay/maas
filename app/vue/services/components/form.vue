@@ -88,7 +88,7 @@ export default {
 
                 <component-schedule @schedule="serviceSchedule" :service="service"></component-schedule>
 
-                <div class="text-right">
+                <div class="text-right" v-if="tools.isAdmin()">
                     <b-button type="submit" variant="primary">Guardar</b-button>
                 </div>
             </b-card-body>

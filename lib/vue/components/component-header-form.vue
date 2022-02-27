@@ -60,7 +60,7 @@ export default {
                     <b-button variant="outline-dark" class="mb-2" :to="listPath()">
                         Listado <font-awesome-icon icon="list" />
                     </b-button>
-                    <b-button v-if="!isNewForm()" variant="outline-dark" class="mb-2" :to="newPath()">
+                    <b-button v-if="!isNewForm() && tools.isAdmin()" variant="outline-dark" class="mb-2" :to="newPath()">
                         Agregar nuevo <font-awesome-icon icon="plus" />
                     </b-button>
                 </slot>

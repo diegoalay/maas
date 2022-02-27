@@ -1,17 +1,12 @@
-def create_user(user)
-  user = User.find_or_create_by!(
-    first_name: user[:first_name],
-    last_name: user[:last_name],
-    email: user[:email],
+def create_user(user_details)
+  user = User.find_or_initialize_by(
+    first_name: user_details[:first_name],
+    last_name: user_details[:last_name],
+    email: user_details[:email]
   )
 
+  user.role = user_details[:role]
+  user.user_creator = User.first if user.role == "employee"
   user.password = "123456"
   user.save!
-end
-
-def create_employee(employee)
-  Employee.find_or_create_by!(
-    user_creator: User.first,
-    first_name: employee[:first_name]
-  )
 end

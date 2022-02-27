@@ -23,9 +23,8 @@ Rails.application.routes.draw do
       put :profile, to: "profile#update"
 
       # employees
-      resources :employees
+      resources :users
     end
-
     unauthenticated do
       root 'users/sessions#new', as: :unauthenticated_root
 

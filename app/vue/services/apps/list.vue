@@ -124,7 +124,7 @@
                         </template>
                     </template>
 
-                    <template v-slot:cell(actions)="row">
+                    <template v-slot:cell(actions)="row" v-if="tools.isAdmin()">
                         <b-button variant="outline-danger" @click.stop="deleteRecord(row.item.id)" class="mr-1">
                             <font-awesome-icon icon="trash" />
                         </b-button>

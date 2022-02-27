@@ -48,6 +48,10 @@ body {
     font-weight: bold;
 }
 
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 @media (max-width: 768px) {
     .card {
         padding: 0px !important;

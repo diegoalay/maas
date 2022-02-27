@@ -51,7 +51,7 @@ export default {
                         <font-awesome-icon v-if="loading" icon="spinner" spin />
                         <font-awesome-icon v-else icon="rotate" />
                     </b-button>
-                    <b-button v-if="!hideCreationButton" variant="outline-dark" class="mb-2" :to="`${$route.path}/new`">
+                    <b-button v-if="!hideCreationButton && tools.isAdmin()" variant="outline-dark" class="mb-2" :to="`${$route.path}/new`">
                         {{ titleButtonCreate }} <font-awesome-icon icon="plus" />
                     </b-button>
                 </slot>

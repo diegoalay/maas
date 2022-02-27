@@ -15,18 +15,10 @@ ActiveRecord::Schema.define(version: 2022_02_27_054858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "employees", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "identity_document_number"
-    t.bigint "user_creator_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.bigint "user_creator_id"
+    t.jsonb "schedule"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -39,12 +31,14 @@ ActiveRecord::Schema.define(version: 2022_02_27_054858) do
     t.datetime "remember_created_at"
     t.string "first_name"
     t.string "last_name"
+    t.integer "role"
+    t.bigint "user_creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "employees", "users", column: "user_creator_id"
   add_foreign_key "services", "users", column: "user_creator_id"
+  add_foreign_key "users", "users", column: "user_creator_id"
 end
