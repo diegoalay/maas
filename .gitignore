@@ -41,3 +41,4 @@ Gemfile.lock
 /public/uploads/
 /node_modules
 /config/credentials/production.key
+db/schema.rb
