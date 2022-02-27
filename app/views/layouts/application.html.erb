@@ -7,10 +7,35 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <%= render 'layouts/partials/data' %>
+
+    <% if current_user %>
+      <%= render 'layouts/partials/cors' %>
+
+      <div id="app" class="wrapper">
+        <!-- Page Content -->
+        <div id="content">
+          <%= render 'layouts/partials/top_navigation' %>
+          <%= render 'layouts/partials/content' %>
+        </div>
+      </div>
+
+      <!-- js loader -->
+      <%= render 'layouts/partials/js_loader' %>
+    <% else %>
+      <div id="app" class="wrapper">
+        <!-- Page Content -->
+        <div id="content">
+            <%= render 'layouts/partials/content' %>
+        </div>
+      </div>
+
+      <!-- js loader -->
+      <%= render 'layouts/partials/js_public_loader' %>
+    <% end %>
     <%= yield %>
   </body>
 </html>

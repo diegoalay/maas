@@ -4,6 +4,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # ruby version
 ruby '2.7.2'
 
+# user authentication
+gem 'devise'
+
+# ui libraries
+gem 'bootstrap', '~> 4.3.1'
+gem "font-awesome-sass", "~> 5.12.0"
+
 # add pagination gem
 gem "kaminari"
 
