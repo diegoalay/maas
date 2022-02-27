@@ -1,6 +1,10 @@
 <script>
+import componentSchedule from '../components/schedule.vue'
+
 export default {
-    components :{},
+    components : {
+        'component-schedule': componentSchedule
+    },
     props: {
         service: {
             required: true,
@@ -12,8 +16,7 @@ export default {
 
         }
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         onSubmit(){
             if (this.service.id) {
@@ -27,7 +30,7 @@ export default {
 
             this.http.post(url, {service: this.service}).then(result => {
                 if (result.successful) {
-                    this.$toast.success('service created successfully.')
+                    this.$toast.success('Servicio creado exitosamente.')
                     this.$router.push(`/services/${result.data.id}`)
                 } else {
                     this.$toast.error(result.error.message)
@@ -41,13 +44,16 @@ export default {
 
             this.http.put(url, {service: this.service}).then(result => {
                 if (result.successful) {
-                    this.$toast.success('service updated successfully.')
+                    this.$toast.success('Servicio actualizado exitosamente.')
                 } else {
                     this.$toast.error(result.error.message)
                 }
             }).catch(error => {
                 console.log(error)
             })
+        },
+        serviceSchedule(value){
+            this.$set(this.service, 'schedule', value)
         }
     }
 }
@@ -75,7 +81,16 @@ export default {
                     </b-col>
                 </b-row>
 
-                <b-button type="submit" variant="primary">Guardar</b-button>
+                <hr>
+                <div class="text-center">
+                    <h5> <b> Horarios </b> </h5>
+                </div>
+
+                <component-schedule @schedule="serviceSchedule" :service="service"></component-schedule>
+
+                <div class="text-right">
+                    <b-button type="submit" variant="primary">Guardar</b-button>
+                </div>
             </b-card-body>
         </b-card>
     </b-form>

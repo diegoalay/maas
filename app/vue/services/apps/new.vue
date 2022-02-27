@@ -8,7 +8,11 @@
 
         data() {
             return {
-                service: {}
+                service: {
+                    id: null,
+                    name: '',
+                    schedule: []
+                }
             }
         }
     }

@@ -47,3 +47,21 @@ body {
 .col-form-label {
     font-weight: bold;
 }
+
+@media (max-width: 768px) {
+    .card {
+        padding: 0px !important;
+    }
+
+    .card-body {
+        padding: 0.8rem;
+    }
+
+    .Vue-Toastification__container.top-right
+    .Vue-Toastification__toast,
+    .Vue-Toastification__container.bottom-right
+    .Vue-Toastification__toast {
+        margin-left: auto;
+        max-width: 60%;
+    }
+}

@@ -8,7 +8,9 @@
 
         data() {
             return {
-                service: {},
+                service: {
+                    schedule: []
+                },
                 id: null
             }
         },

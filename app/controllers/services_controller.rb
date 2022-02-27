@@ -7,7 +7,7 @@ class ServicesController < ApplicationSystemController
       format.html {}
       format.json do
 
-        respond_with_successful(Service.index())
+        respond_with_successful(Service.index)
       end
     end
   end
@@ -82,7 +82,12 @@ class ServicesController < ApplicationSystemController
   # Only allow a list of trusted parameters through.
   def service_params
     params.fetch(:service, {}).permit(
-      %i[name]
+      :name,
+      schedule: [
+        :start_at,
+        :end_at,
+        :status,
+      ]
     )
   end
 end

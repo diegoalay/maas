@@ -4,6 +4,8 @@ class CreateServices < ActiveRecord::Migration[6.1]
       t.string    :name
       t.bigint    :user_creator_id
 
+      t.jsonb     :schedule
+
       t.timestamps
     end
 
