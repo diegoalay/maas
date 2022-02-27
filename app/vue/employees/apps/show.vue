@@ -24,7 +24,7 @@
             },
 
             getData(){
-                const url = this.url.build('employees/:id', {id: this.id})
+                const url = `/employees/${this.id}.json`
                 this.http.get(url).then(result => {
                     if (result.successful) {
                         this.employee = result.data

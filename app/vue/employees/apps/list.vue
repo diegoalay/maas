@@ -7,12 +7,20 @@
             return {
                 data: [],
                 fields: [{
-                    label: 'Nombre',
-                    key: 'first_name',
+                    label: 'Fecha de cración',
+                    key: 'created_at',
                     sortable: true
                 },{
-                    label: 'Apellido',
-                    key: 'last_name',
+                    label: 'Nombre',
+                    key: 'full_name',
+                    sortable: true
+                },{
+                    label: 'DPI',
+                    key: 'identity_document_number',
+                    sortable: true
+                },{
+                    label: 'Usuario creador',
+                    key: 'user_creator_name',
                     sortable: true
                 },{
                     label: '',
@@ -22,7 +30,7 @@
                     total: 0,
                     per_page: 10,
                     current_page: 1,
-                    order_by: 'sale_date',
+                    order_by: 'full_name',
                     order: true,
                 },
                 filters: {
@@ -32,20 +40,25 @@
             }
         },
         mounted() {
-            this.getList()
+            this.getIndex()
         },
         methods: {
-            getList(){
+            getIndex(){
+                let url = `employees.json?`
+
+                // filters
+                url += `filters[search]=${this.filters.search}`
+
+                // pagination
+                url += `&per_page=${this.pagination.per_page}&current_page=${this.pagination.current_page}`
+
+                // sorting
+                url += `&order=${this.pagination.order}&order_by=${this.pagination.order_by}`
+
                 this.loading = true
-
-                const url = this.url.build('sales')
-                .filters(this.filters)
-                .paginate(this.pagination.current_page, this.pagination.per_page)
-                .order(this.pagination.order_by, this.pagination.order ? 'desc' : 'asc')
-
                 this.http.get(url).then(response => {
                     if (response.successful) {
-                        this.data = response.data.sales
+                        this.data = response.data.employees
                         this.pagination.total = response.data.total_count
                     }
 
@@ -56,7 +69,7 @@
             },
 
             deleteRecord(id){
-                const url = this.url.build('brands/:id', {id: id})
+                const url = this.url.build('employees/:id', {id: id})
                 this.http.delete(url).then(result => {
                     if (result.successful) {
                         this.data = this.data.filter(e => e.id !== id)
@@ -70,14 +83,14 @@
                 })
             },
 
-            showRecord(sale){
-                this.$router.push(`sales/${sale.id}`)
+            showRecord(employee){
+                this.$router.push(`employees/${employee.id}`)
             },
 
             onSearch(text){
                 this.filters.search = text
 
-                this.list()
+                this.getIndex()
             },
 
             onFiltered(filteredItems) {
@@ -88,15 +101,15 @@
 
         watch: {
             'pagination.current_page'() {
-                this.list()
+                this.getIndex()
             },
 
             'pagination.order_by'() {
-                this.list()
+                this.getIndex()
             },
 
             'pagination.order'(){
-                this.list()
+                this.getIndex()
             }
         }
     }
@@ -105,15 +118,19 @@
 <template>
     <section class="application-component">
         <component-header-list
-            title="Ventas"
-            title-button-create="Vender"
+            title="Empleados"
+            title-button-create="Crear"
             :loading="loading"
-            @reloadList="list"
+            @reloadList="getIndex"
         >
         </component-header-list>
 
         <b-card>
-            <component-search-list :loading="loading" @search="onSearch">
+            <component-search-list
+                :loading="loading"
+                @search="onSearch"
+                placeholder-text="Buscar por nombre o dpi ..."
+            >
             </component-search-list>
 
             <b-card-body>

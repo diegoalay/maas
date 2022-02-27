@@ -23,7 +23,7 @@ export default {
             }
         },
         postForm(){
-            const url = `/employees/${this.employee.id}`
+            const url = `/employees.json`
 
             this.http.post(url, {employee: this.employee}).then(result => {
                 if (result.successful) {
@@ -57,32 +57,52 @@ export default {
     <b-form @submit.prevent="onSubmit">
         <b-card>
             <b-card-body>
-                <b-col sm="12">
-                    <b-form-group>
-                        <label> First Name <sup class="text-danger">*</sup> </label>
+                <b-row>
+                    <b-col sm="12">
+                        <b-form-group>
+                            <template #label>
+                                First Name <sup class="text-danger">*</sup>
+                            </template>
 
-                        <b-form-input
-                            v-model="employee.first_name"
-                            type="text"
-                            placeholder=""
-                            required
-                        >
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
+                            <b-form-input
+                                v-model="employee.first_name"
+                                type="text"
+                                placeholder=""
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
 
-                <b-col sm="12">
-                    <b-form-group>
-                        <label> Last Name </label>
+                    <b-col sm="12">
+                        <b-form-group>
+                            <template #label>
+                                Last Name <sup class="text-danger">*</sup>
+                            </template>
 
-                        <b-form-input
-                            v-model="employee.second_name"
-                            type="text"
-                            placeholder=""
-                        >
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
+                            <b-form-input
+                                v-model="employee.last_name"
+                                type="text"
+                                placeholder=""
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+
+                    <b-col sm="12">
+                        <b-form-group>
+                            <template #label> DPI </template>
+
+                            <b-form-input
+                                v-model="employee.identity_document_number"
+                                type="text"
+                                placeholder=""
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
 
                 <b-button type="submit" variant="primary">Guardar</b-button>
             </b-card-body>
