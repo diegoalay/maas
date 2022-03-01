@@ -11,7 +11,8 @@
                 service: {
                     id: null,
                     name: '',
-                    schedule: []
+                    schedule: [],
+                    color: '#FFFFFF'
                 }
             }
         }

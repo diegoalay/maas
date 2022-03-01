@@ -1,0 +1,17 @@
+<%= form_with(model: shift_available) do |form| %>
+  <% if shift_available.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(shift_available.errors.count, "error") %> prohibited this shift_available from being saved:</h2>
+
+      <ul>
+        <% shift_available.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -113,7 +113,7 @@
 </script>
 
 <template>
-    <section class="application-component">
+    <section>
         <component-header-list
             title="Usuarios"
             title-button-create="Crear"

@@ -49,6 +49,16 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+
+        updateColor(){
+
+        }
+    },
+
+    watch: {
+        'user.color'(value){
+            console.log(value)
         }
     }
 }
@@ -93,14 +103,16 @@ export default {
 
                     <b-col sm="12">
                         <b-form-group>
-                            <template #label> DPI </template>
+                            <template #label> Color </template>
 
-                            <b-form-input
-                                v-model="user.identity_document_number"
-                                type="text"
-                                placeholder=""
+                            <color-picker
+                                @input="updateColor"
+                                v-model="user.color"
+                                :preset-colors="[
+                                    '#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'
+                                ]"
                             >
-                            </b-form-input>
+                            </color-picker>
                         </b-form-group>
                     </b-col>
                 </b-row>

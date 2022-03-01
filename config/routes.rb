@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :services
   devise_for :users,
   :controllers => {
     :sessions => "users/sessions"
@@ -22,8 +21,23 @@ Rails.application.routes.draw do
       get :profile, to: "profile#show"
       put :profile, to: "profile#update"
 
-      # employees
       resources :users
+
+      resources :shifts do
+        scope module: :shift do
+          resources :availables
+          resources :confirmations
+        end
+        collection do
+          get :options
+        end
+      end
+
+      resources :services do
+        member do
+          get :available_shifts
+        end
+      end
     end
     unauthenticated do
       root 'users/sessions#new', as: :unauthenticated_root

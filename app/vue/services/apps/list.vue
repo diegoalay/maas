@@ -88,7 +88,7 @@
 </script>
 
 <template>
-    <section class="application-component">
+    <section>
         <component-header-list
             title="Servicios"
             title-button-create="Agregar Servicio"
@@ -140,6 +140,8 @@
                         size="sm"
                     ></b-pagination>
                 </b-col>
+
+
             </b-card-body>
         </b-card>
     </section>

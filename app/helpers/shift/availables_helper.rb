@@ -1,0 +1,2 @@
+module Shift::AvailablesHelper
+end

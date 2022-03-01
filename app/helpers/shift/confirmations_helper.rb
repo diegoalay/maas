@@ -1,0 +1,2 @@
+module Shift::ConfirmationsHelper
+end

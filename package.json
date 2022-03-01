@@ -18,6 +18,7 @@
         "style-loader": "^3.3.1",
         "turbolinks": "^5.2.0",
         "vue": "^2.6.11",
+        "vue-color": "^2.8.1",
         "vue-js-modal": "^2.0.1",
         "vue-loader": "^15.8.3",
         "vue-router": "^3.5.3",

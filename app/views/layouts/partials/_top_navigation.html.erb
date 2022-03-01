@@ -46,17 +46,10 @@
       <b-navbar-nav>
         <b-nav-item-dropdown class="left-nav-item" text="Turnos" right>
           <li>
-            <%= navigation_vue_item("/products") do %>
-              <i class="fas fa-clipboard-list"></i>
+            <%= navigation_vue_item("/shifts") do %>
+              <i class="fas fa-bars"></i>
               &nbsp;
-              <span> Disponibles </span>
-            <% end %>
-          </li>
-          <li>
-            <%= navigation_vue_item("/products") do %>
-              <i class="fas fa-check-double"></i>
-              &nbsp;
-              <span> Confirmados </span>
+              <span> Listado </span>
             <% end %>
           </li>
         </b-nav-item-dropdown>

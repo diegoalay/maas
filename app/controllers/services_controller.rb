@@ -1,5 +1,5 @@
 class ServicesController < ApplicationSystemController
-  before_action :set_service, only: %i[update destroy]
+  before_action :set_service, only: %i[available_shifts update destroy]
 
   # GET /services or /services.json
   def index
@@ -55,6 +55,10 @@ class ServicesController < ApplicationSystemController
     else
       respond_service_with_errors
     end
+  end
+
+  def available_shifts
+    respond_with_successful(@service.available_shifts())
   end
 
   # DELETE /services/1 or /services/1.json
