@@ -73,31 +73,11 @@
             weekChange(weekId){
                 const week = this.options.weeks.find(e => e.value === weekId)
                 this.shiftId = week.shift_id
-
-                this.getData()
             },
 
             setSchedule(){
                 this.serviceSchedule = this.options.services
                 .find((e) => e.value === this.serviceId).schedule
-            },
-
-            async getData(){
-                this.shiftConfirmations = await this.getShiftData('confirmations')
-                this.shiftAvailables = await this.getShiftData('availables')
-            },
-
-            async getShiftData(key){
-                return new Promise(async (resolve, reject) => {
-                    const url = `shifts/${this.shiftId}/${key}.json`
-                    await this.http.get(url).then(result => {
-                        resolve(result.successful ? result.data : {})
-                    }).catch(error => {
-
-                        reject()
-                        console.log(error)
-                    })
-                })
             },
 
             viewShiftAvailables(){
@@ -106,6 +86,36 @@
 
             viewShiftConfirmations(){
                 return (this.viewMode === 'confirmations')
+            },
+
+            getTitle(){
+                if (this.viewShiftAvailables()) {
+                    'Ver Detalles'
+                } else {
+                    'Editar disponibilidad'
+                }
+            },
+
+            switchViewType(){
+                if (this.viewShiftAvailables()) {
+                    this.viewMode = 'confirmations'
+                } else {
+                    this.viewMode = 'availables'
+                }
+            },
+
+            getDaySchedule(day){
+                let hours = []
+                const day_info = this.schedule[day]
+
+                for(let i = day_info.start_at; i < day_info.end_at; i++){
+                    hours.push({
+                        hour_id: i,
+                        text: `${i}:00 - ${i === 23 ? '00': i+1}:00`
+                    })
+                }
+
+                return hours
             }
         }
     }
@@ -118,6 +128,11 @@
             :loading="loading"
             @reloadList="getShifts()"
         >
+            <slot name="buttons">
+                <b-button variant="outline-dark" class="mb-2" @click="switchViewType()">
+                    {{ getTitle() }}
+                </b-button>
+            </slot>
         </component-header-list>
         <b-card>
             <b-card-body>
@@ -158,8 +173,8 @@
 
                 <component-shift-availables
                     v-if="viewShiftAvailables() && serviceId"
+                    :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
-                    :shift-availables="shiftAvailables"
                     :employees="options.employees"
                     :shift-id="shiftId"
                 >
@@ -167,8 +182,8 @@
 
                 <component-shift-confirmations
                     v-if="viewShiftConfirmations() && serviceId"
+                    :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
-                    :confirmations="shiftConfirmations"
                     :employees="options.employees"
                     :shift-id="shiftId"
                 >

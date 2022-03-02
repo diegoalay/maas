@@ -10,11 +10,6 @@ export default {
             required: true
         },
 
-        shiftAvailables: {
-            type: Array,
-            required: true
-        },
-
         employees: {
             type: Array,
             required: true
@@ -30,22 +25,33 @@ export default {
                 label: 'Horario'
             }],
             data: [],
-            assignedUsers: []
+            assignedUsers: [],
+            hoursByUser: {}
         }
     },
 
-    mounted() {
-        this.setFields()
-    },
+    mounted() {},
 
     methods: {
+        clearData(){
+            this.availables = []
+            this.fields = [{
+                key: 'time_range',
+                label: 'Horario'
+            }],
+            this.data = []
+            this.assignedUsers = []
+            this.hoursByUser = {}
+        },
+
         submitUserAvailable(user_id, hour_id, day_id, event){
+            console.log('user')
+            console.log(user_id)
+
             const find = this.getAvailableValue(user_id, hour_id, day_id)
 
-            this.setScheduleColors(hour_id, day_id, event ? true : this.hasAssignedUsers(hour_id, day_id))
-
             if (find.id !== -1) {
-                this.putForm(find.id, event)
+                this.putForm(find.id, event, user_id, hour_id, day_id)
             } else {
                 this.postForm(user_id, hour_id, day_id)
             }
@@ -64,6 +70,17 @@ export default {
 
             this.http.post(url, form).then(result => {
                 if (result.successful) {
+                    this.setScheduleColors(hour_id, day_id, true)
+                    this.sethoursByUser(user_id)
+
+                    this.availables.push({
+                        id: result.data.id,
+                        user_id: user_id,
+                        hour_id: hour_id,
+                        day_id: day_id,
+                        status: true
+                    })
+
                     this.$toast.success('Disponibilidad actualizada exitosamente.')
                 } else {
                     this.$toast.error(result.error.message)
@@ -72,7 +89,8 @@ export default {
                 console.log(error)
             })
         },
-        putForm(availableId, status){
+
+        putForm(availableId, status, user_id, hour_id, day_id){
             const url = `/shifts/${this.shiftId}/availables/${availableId}.json`
             const form = {
                 shift_available: {
@@ -82,6 +100,10 @@ export default {
 
             this.http.put(url, form).then(result => {
                 if (result.successful) {
+                    console.log(status)
+                    this.setScheduleColors(hour_id, day_id, this.hasAssignedUsers(hour_id, day_id))
+                    this.sethoursByUser(user_id, status ? 1 : -1)
+
                     this.$toast.success('Disponibilidad actualizada exitosamente.')
                 } else {
                     this.$toast.error(result.error.message)
@@ -160,24 +182,63 @@ export default {
                     status: status
                 })
             }
-        }
+        },
+
+        countUserHours(user_id){
+            const total = this.hoursByUser[user_id]
+
+            return total ? total : 0
+        },
+
+        sethoursByUser(user_id, value = 1) {
+            if (!this.hoursByUser[`${user_id}`]) this.hoursByUser[`${user_id}`] = 0
+
+            console.log(value)
+            console.log(this.hoursByUser[`${user_id}`])
+
+            this.hoursByUser[`${user_id}`] = value + this.hoursByUser[`${user_id}`]
+        },
+
+        async getData(){
+            this.availables = await this.getShiftData('confirmations')
+
+            console.log(this.availables)
+            for(let available of this.availables) {
+                if (available.status) {
+                    this.setScheduleColors(available.hour_id, available.day_id)
+                    this.sethoursByUser(available.user_id)
+                }
+            }
+        },
+
+        async getShiftData(key){
+            return new Promise(async (resolve, reject) => {
+                const url = `shifts/${this.shiftId}/availables.json`
+                await this.http.get(url).then(result => {
+                    resolve(result.successful ? result.data : {})
+                }).catch(error => {
+
+                    reject()
+                    console.log(error)
+                })
+            })
+        },
     },
 
     watch: {
-        serviceSchedule(value){
-            this.schedule = value
+        shiftId: {
+            handler() {
+                this.clearData()
+                setTimeout(() => {
+                    this.setFields()
+                    this.getData()
+                }, 500)
+            },
+            inmediate: true
         },
 
-        shiftAvailables(value){
-            this.availables = value
-
-            setTimeout(() => {
-                for(let available of this.availables) {
-                    if (available.status) {
-                        this.setScheduleColors(available.hour_id, available.day_id)
-                    }
-                }
-            }, 500);
+        serviceSchedule(value){
+            this.schedule = value
         }
     }
 }
@@ -185,6 +246,42 @@ export default {
 
 <template>
     <div class="shift-availables">
+        <b-row class="text-center">
+            <b-col>
+                <b-table-simple
+                    :bordered="true"
+                    :small="true"
+                    :fixed="true"
+                >
+                    <b-thead>
+                        <b-tr>
+                            <b-th >Empleado</b-th>
+                            <b-th
+                                v-for="employee in employees"
+                                :key="employee.id"
+                                v-bind:style="{ backgroundColor: employee.color }"
+                            >
+                                {{ employee.full_name }}
+                            </b-th>
+                        </b-tr>
+                    </b-thead>
+                    <b-tbody>
+                        <b-tr>
+                            <b-td> Cantidad de horas </b-td>
+                            <b-td
+                                v-for="employee in employees"
+                                :key="employee.id"
+                            >
+                                {{ countUserHours(employee.id) }}
+                            </b-td>
+                        </b-tr>
+                    </b-tbody>
+                </b-table-simple>
+            </b-col>
+        </b-row>
+
+        <hr>
+
         <b-row>
             <b-col
                 :md="`${employees.length}`"

@@ -6,8 +6,10 @@ class Service < ApplicationRecord
     week_init = Shift.where(service: self).order(:id).first&.week_id
     current_week = Time.current.strftime("%U").to_i
 
-    if ((current_week - 5) > week_init)
-      week_init = current_week - 5
+    if (week_init === nil) # there is no data for this service
+      week_init = current_week
+    elsif ((current_week - 5) > week_init) # create the following 5 days starting in the current week
+      week_init = current_week
     end
 
     return (week_init..(5+week_init)).map {
