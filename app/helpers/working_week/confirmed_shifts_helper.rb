@@ -1,0 +1,2 @@
+module WorkingWeek::ConfirmedShiftsHelper
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_27_224129) do
+ActiveRecord::Schema.define(version: 2022_03_02_031547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,38 @@ ActiveRecord::Schema.define(version: 2022_02_27_224129) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "working_week_available_shifts", force: :cascade do |t|
+    t.integer "hour_id"
+    t.integer "day_id"
+    t.boolean "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "working_week_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_working_week_available_shifts_on_user_id"
+    t.index ["working_week_id"], name: "index_working_week_available_shifts_on_working_week_id"
+  end
+
+  create_table "working_week_confirmed_shifts", force: :cascade do |t|
+    t.integer "hour_id"
+    t.integer "day_id"
+    t.boolean "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "working_week_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_working_week_confirmed_shifts_on_user_id"
+    t.index ["working_week_id"], name: "index_working_week_confirmed_shifts_on_working_week_id"
+  end
+
+  create_table "working_weeks", force: :cascade do |t|
+    t.integer "week_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "service_id"
+    t.index ["service_id"], name: "index_working_weeks_on_service_id"
+  end
+
   add_foreign_key "services", "users", column: "user_creator_id"
   add_foreign_key "shift_availables", "shifts"
   add_foreign_key "shift_availables", "users"
@@ -79,4 +111,9 @@ ActiveRecord::Schema.define(version: 2022_02_27_224129) do
   add_foreign_key "shift_confirmations", "users"
   add_foreign_key "shifts", "services"
   add_foreign_key "users", "users", column: "user_creator_id"
+  add_foreign_key "working_week_available_shifts", "users"
+  add_foreign_key "working_week_available_shifts", "working_weeks"
+  add_foreign_key "working_week_confirmed_shifts", "users"
+  add_foreign_key "working_week_confirmed_shifts", "working_weeks"
+  add_foreign_key "working_weeks", "services"
 end

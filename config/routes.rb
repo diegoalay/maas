@@ -33,6 +33,16 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :working_weeks do
+        scope module: :working_week do
+          resources :available_shifts
+          resources :confirmed_shifts
+        end
+        collection do
+          get :options
+        end
+      end
+
       resources :services do
         member do
           get :available_shifts

@@ -3,7 +3,7 @@ class Service < ApplicationRecord
   has_many :shifts
 
   def available_shifts
-    week_init = Shift.where(service: self).order(:id).first&.week_id
+    week_init = WorkingWeek.where(service: self).order(:id).first&.week_id
     current_week = Time.current.strftime("%U").to_i
 
     if (week_init === nil) # there is no data for this service
@@ -15,7 +15,7 @@ class Service < ApplicationRecord
     return (week_init..(5+week_init)).map {
     |n|
       {
-        shift_id: Shift.create_shift(self, n).id, # search or create shift
+        shift_id: WorkingWeek.create_shift(self, n).id, # search or create shift
         text: "Semana #{n}",
         value: n
       }
