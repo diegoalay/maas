@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 2022_02_27_224129) do
 
   create_table "shift_availables", force: :cascade do |t|
     t.integer "hour_id"
+    t.integer "day_id"
+    t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "shift_id"
@@ -35,6 +37,8 @@ ActiveRecord::Schema.define(version: 2022_02_27_224129) do
 
   create_table "shift_confirmations", force: :cascade do |t|
     t.integer "hour_id"
+    t.integer "day_id"
+    t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "shift_id"
@@ -57,6 +61,7 @@ ActiveRecord::Schema.define(version: 2022_02_27_224129) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "color"
     t.string "first_name"
     t.string "last_name"
     t.integer "role"
