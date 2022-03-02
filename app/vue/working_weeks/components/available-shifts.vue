@@ -102,7 +102,6 @@ export default {
 
             this.http.put(url, form).then(result => {
                 if (result.successful) {
-                    console.log(status)
                     this.setScheduleColors(hour_id, day_id, this.hasAssignedUsers(hour_id, day_id))
                     this.sethoursByUser(user_id, status ? 1 : -1)
 
@@ -181,16 +180,12 @@ export default {
         sethoursByUser(user_id, value = 1) {
             if (!this.hoursByUser[`${user_id}`]) this.hoursByUser[`${user_id}`] = 0
 
-            console.log(value)
-            console.log(this.hoursByUser[`${user_id}`])
-
             this.hoursByUser[`${user_id}`] = value + this.hoursByUser[`${user_id}`]
         },
 
         async getData(){
             this.availables = await this.getShiftData()
 
-            console.log(this.availables)
             for(let available of this.availables) {
                 if (available.status) {
                     this.setScheduleColors(available.hour_id, available.day_id)
