@@ -14,6 +14,7 @@
                 WorkingWeekId: null,
                 serviceSchedule: [],
                 options: {
+                    employees: [],
                     services: [],
                     weeks: []
                 },
@@ -33,7 +34,7 @@
             },
 
             getOptions(){
-                const url = `/shifts/options.json`
+                const url = `/working_weeks/options.json`
 
                 this.http.get(url).then(result => {
                     if (result.successful) {
@@ -90,9 +91,9 @@
 
             getTitle(){
                 if (this.viewAvailableShifts()) {
-                    'Ver Detalles'
+                    return 'Ver Detalles'
                 } else {
-                    'Editar disponibilidad'
+                    return 'Editar disponibilidad'
                 }
             },
 
@@ -130,11 +131,11 @@
         >
             <slot name="buttons">
                 <b-button
-                    variant="outline-dark"
+                    :variant="viewAvailableShifts() ? 'outline-dark' : 'outline-success'"
                     class="mb-2"
                     @click="switchViewType()"
                 >
-                    {{ getTitle() + '1212' }}
+                    {{ getTitle() }}
                 </b-button>
             </slot>
         </component-header-list>
@@ -176,7 +177,7 @@
                 </b-row>
 
                 <component-available-shifts
-                    v-if="viewAvailableShifts() && serviceId"
+                    v-show="viewAvailableShifts() && serviceId"
                     :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
                     :employees="options.employees"
@@ -185,7 +186,7 @@
                 </component-available-shifts>
 
                 <component-confirmed-shifts
-                    v-if="viewConfirmedShifts() && serviceId"
+                    v-show="viewConfirmedShifts() && serviceId"
                     :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
                     :employees="options.employees"

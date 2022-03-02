@@ -23,7 +23,7 @@ export default {
 
     data(){
         return {
-            availables: [],
+            available_shifts: [],
             schedule: [],
             fields: [{
                 key: 'time_range',
@@ -39,7 +39,7 @@ export default {
 
     methods: {
         clearData(){
-            this.availables = []
+            this.available_shifts = []
             this.fields = [{
                 key: 'time_range',
                 label: 'Horario'
@@ -60,9 +60,9 @@ export default {
         },
 
         postForm(user_id, hour_id, day_id){
-            const url = `/working_weeks/${this.workingWeekId}/availables.json`
+            const url = `/working_weeks/${this.workingWeekId}/available_shifts.json`
             const form = {
-                shift_available: {
+                available_shift: {
                     user_id: user_id,
                     hour_id: hour_id,
                     day_id: day_id,
@@ -75,7 +75,7 @@ export default {
                     this.setScheduleColors(hour_id, day_id, true)
                     this.sethoursByUser(user_id)
 
-                    this.availables.push({
+                    this.available_shifts.push({
                         id: result.data.id,
                         user_id: user_id,
                         hour_id: hour_id,
@@ -93,9 +93,9 @@ export default {
         },
 
         putForm(availableId, status, user_id, hour_id, day_id){
-            const url = `/working_weeks/${this.workingWeekId}/availables/${availableId}.json`
+            const url = `/working_weeks/${this.workingWeekId}/available_shifts/${availableId}.json`
             const form = {
-                shift_available: {
+                available_shift: {
                     status
                 }
             }
@@ -127,7 +127,7 @@ export default {
 
         getAvailableShiftValue(user_id, hour_id, day_id){
 
-            const find = this.availables.find(e =>
+            const find = this.available_shifts.find(e =>
                 e.user_id === user_id &&
                 e.hour_id === hour_id &&
                 e.day_id === day_id
@@ -178,15 +178,15 @@ export default {
         },
 
         sethoursByUser(user_id, value = 1) {
-            if (!this.hoursByUser[`${user_id}`]) this.hoursByUser[`${user_id}`] = 0
+            if (!this.hoursByUser[user_id]) this.hoursByUser[user_id] = 0
 
-            this.hoursByUser[`${user_id}`] = value + this.hoursByUser[`${user_id}`]
+            this.hoursByUser[user_id] += value
         },
 
         async getData(){
-            this.availables = await this.getShiftData()
+            this.available_shifts = await this.getAvailableShiftsData()
 
-            for(let available of this.availables) {
+            for(let available of this.available_shifts) {
                 if (available.status) {
                     this.setScheduleColors(available.hour_id, available.day_id)
                     this.sethoursByUser(available.user_id)
@@ -194,7 +194,7 @@ export default {
             }
         },
 
-        async getShiftData(key){
+        async getAvailableShiftsData(key){
             return new Promise(async (resolve, reject) => {
                 const url = `working_weeks/${this.workingWeekId}/available_shifts.json`
                 await this.http.get(url).then(result => {
@@ -226,8 +226,8 @@ export default {
 </script>
 
 <template>
-    <div class="shift-availables">
-        <b-row class="text-center">
+    <div class="available-shifts">
+        <b-row class="text-cent">
             <b-col>
                 <b-table-simple
                     :bordered="true"
@@ -248,7 +248,7 @@ export default {
                     </b-thead>
                     <b-tbody>
                         <b-tr>
-                            <b-td> Cantidad de horas </b-td>
+                            <b-td> Horas disponibles </b-td>
                             <b-td
                                 v-for="employee in employees"
                                 :key="employee.id"

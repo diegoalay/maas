@@ -3,7 +3,6 @@ class CreateWorkingWeekConfirmedShifts < ActiveRecord::Migration[6.1]
     create_table :working_week_confirmed_shifts do |t|
       t.integer :hour_id
       t.integer :day_id
-      t.boolean :status
 
       t.timestamps
     end
