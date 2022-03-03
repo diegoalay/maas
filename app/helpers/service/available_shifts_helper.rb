@@ -1,2 +1,0 @@
-module Service::AvailableShiftsHelper
-end

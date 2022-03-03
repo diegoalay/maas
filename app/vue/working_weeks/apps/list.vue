@@ -11,7 +11,7 @@
             return {
                 serviceId: null,
                 weekNumber: null,
-                WorkingWeekId: null,
+                workingWeekId: null,
                 serviceSchedule: [],
                 options: {
                     employees: [],
@@ -73,7 +73,7 @@
 
             weekChange(weekNumber){
                 const week = this.options.weeks.find(e => e.value === weekNumber)
-                this.WorkingWeekId = week.shift_id
+                this.workingWeekId = week.shift_id
             },
 
             setSchedule(){
@@ -112,6 +112,7 @@
                 for(let i = day_info.start_at; i < day_info.end_at; i++){
                     hours.push({
                         hour_id: i,
+                        day_id: day_info.id,
                         text: `${i}:00 - ${i === 23 ? '00': i+1}:00`
                     })
                 }
@@ -177,20 +178,21 @@
                 </b-row>
 
                 <component-available-shifts
-                    v-show="viewAvailableShifts() && serviceId"
+                    v-show="viewAvailableShifts() && serviceId && workingWeekId"
                     :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
                     :employees="options.employees"
-                    :working-week-id="WorkingWeekId"
+                    :working-week-id="workingWeekId"
                 >
                 </component-available-shifts>
 
                 <component-confirmed-shifts
-                    v-show="viewConfirmedShifts() && serviceId"
+                    v-show="viewConfirmedShifts() && serviceId && workingWeekId"
+                    :reload-data="viewConfirmedShifts()"
                     :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
                     :employees="options.employees"
-                    :working-week-id="WorkingWeekId"
+                    :working-week-id="workingWeekId"
                 >
                 </component-confirmed-shifts>
             </b-card-body>

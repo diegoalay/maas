@@ -88,9 +88,10 @@ class ServicesController < ApplicationSystemController
     params.fetch(:service, {}).permit(
       :name,
       schedule: [
+        :id, # day id
         :start_at,
         :end_at,
-        :status,
+        :status
       ]
     )
   end

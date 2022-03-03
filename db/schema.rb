@@ -23,38 +23,6 @@ ActiveRecord::Schema.define(version: 2022_03_02_031547) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "shift_availables", force: :cascade do |t|
-    t.integer "hour_id"
-    t.integer "day_id"
-    t.boolean "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "shift_id"
-    t.bigint "user_id"
-    t.index ["shift_id"], name: "index_shift_availables_on_shift_id"
-    t.index ["user_id"], name: "index_shift_availables_on_user_id"
-  end
-
-  create_table "shift_confirmations", force: :cascade do |t|
-    t.integer "hour_id"
-    t.integer "day_id"
-    t.boolean "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "shift_id"
-    t.bigint "user_id"
-    t.index ["shift_id"], name: "index_shift_confirmations_on_shift_id"
-    t.index ["user_id"], name: "index_shift_confirmations_on_user_id"
-  end
-
-  create_table "shifts", force: :cascade do |t|
-    t.integer "week_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "service_id"
-    t.index ["service_id"], name: "index_shifts_on_service_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -87,7 +55,6 @@ ActiveRecord::Schema.define(version: 2022_03_02_031547) do
   create_table "working_week_confirmed_shifts", force: :cascade do |t|
     t.integer "hour_id"
     t.integer "day_id"
-    t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "working_week_id"
@@ -105,11 +72,6 @@ ActiveRecord::Schema.define(version: 2022_03_02_031547) do
   end
 
   add_foreign_key "services", "users", column: "user_creator_id"
-  add_foreign_key "shift_availables", "shifts"
-  add_foreign_key "shift_availables", "users"
-  add_foreign_key "shift_confirmations", "shifts"
-  add_foreign_key "shift_confirmations", "users"
-  add_foreign_key "shifts", "services"
   add_foreign_key "users", "users", column: "user_creator_id"
   add_foreign_key "working_week_available_shifts", "users"
   add_foreign_key "working_week_available_shifts", "working_weeks"

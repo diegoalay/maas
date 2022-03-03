@@ -74,36 +74,43 @@ export default {
 
         setDefaultSchedule(){
             this.days = [{
+                id: 0,
                 text: this.tools.getDayName(0),
                 start_at: 19,
                 end_at: 24,
                 status: true
             },{
+                id: 1,
                 text: this.tools.getDayName(1),
                 start_at: 19,
                 end_at: 24,
                 status: true
             },{
+                id: 2,
                 text: this.tools.getDayName(2),
                 start_at: 19,
                 end_at: 24,
                 status: true
             },{
+                id: 3,
                 text: this.tools.getDayName(3),
                 start_at: 19,
                 end_at: 24,
                 status: true
             },{
+                id: 4,
                 text: this.tools.getDayName(4),
                 start_at: 19,
                 end_at: 24,
                 status: true
             },{
+                id: 5,
                 text: this.tools.getDayName(5),
                 start_at: 10,
                 end_at: 24,
                 status: true
             },{
+                id: 6,
                 text: this.tools.getDayName(6),
                 start_at: 10,
                 end_at: 24,

@@ -72,6 +72,22 @@ export default {
                     <b-col sm="12">
                         <b-form-group>
                             <template #label>
+                                Email <sup class="text-danger">*</sup>
+                            </template>
+
+                            <b-form-input
+                                v-model="user.email"
+                                type="email"
+                                placeholder=""
+                                required
+                            >
+                            </b-form-input>
+                        </b-form-group>
+                    </b-col>
+
+                    <b-col sm="12">
+                        <b-form-group>
+                            <template #label>
                                 Nombre <sup class="text-danger">*</sup>
                             </template>
 
@@ -88,14 +104,13 @@ export default {
                     <b-col sm="12">
                         <b-form-group>
                             <template #label>
-                                Apellido <sup class="text-danger">*</sup>
+                                Apellido
                             </template>
 
                             <b-form-input
                                 v-model="user.last_name"
                                 type="text"
                                 placeholder=""
-                                required
                             >
                             </b-form-input>
                         </b-form-group>

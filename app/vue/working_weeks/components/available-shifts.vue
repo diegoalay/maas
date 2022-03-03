@@ -126,7 +126,6 @@ export default {
         },
 
         getAvailableShiftValue(user_id, hour_id, day_id){
-
             const find = this.available_shifts.find(e =>
                 e.user_id === user_id &&
                 e.hour_id === hour_id &&
@@ -206,6 +205,14 @@ export default {
                 })
             })
         },
+
+        canEdit(user_id){
+            if (this.tools.isAdmin() ||
+                this.tools.userLoggedIn(user_id)
+            ) {
+                return true
+            }
+        }
     },
 
     watch: {
@@ -227,7 +234,7 @@ export default {
 
 <template>
     <div class="available-shifts">
-        <b-row class="text-cent">
+        <b-row class="text-center">
             <b-col>
                 <b-table-simple
                     :bordered="true"
@@ -298,7 +305,7 @@ export default {
                                 class="text-center"
                                 v-bind:style="{backgroundColor: assignedUsers.find((e) =>
                                         e.hour_id === time.hour_id &&
-                                        e.day_id === index &&
+                                        e.day_id === day.id &&
                                         e.status === true
                                     ) ? '#a3d6b1' : '#d9a3a0'
                                 }"
@@ -306,13 +313,15 @@ export default {
                                 {{ time.text }}
                             </b-td>
                             <b-td
+                                class="text-center"
                                 v-for="employee in employees"
                                 :key="employee.id"
-                                v-bind:class="'text-center'"
                             >
                                 <b-form-checkbox
-                                    @change="submitAvailableShift(employee.id, time.hour_id, index, $event)"
-                                    v-model="getAvailableShiftValue(employee.id, time.hour_id, index)['status']"
+                                    readonly
+                                    :disabled="!canEdit(employee.id)"
+                                    @change="submitAvailableShift(employee.id, time.hour_id, day.id, $event)"
+                                    v-model="getAvailableShiftValue(employee.id, time.hour_id, day.id)['status']"
                                 >
                                 </b-form-checkbox>
                             </b-td>

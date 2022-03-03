@@ -10,36 +10,42 @@ create_user({first_name: "Benjamín", last_name: "", email: "benjamin@maas-syste
 service = Service.find_or_initialize_by(name: "Recorrido.cl")
 service.user_creator = User.first
 service.schedule = [{
+  id: 0,
   start_at: 19,
   end_at: 24,
   status: true
 },{
+  id: 1,
   start_at: 19,
   end_at: 24,
   status: true
 },{
+  id: 2,
   start_at: 19,
   end_at: 24,
   status: true
 },{
+  id: 3,
   start_at: 19,
   end_at: 24,
   status: true
 },{
+  id: 4,
   start_at: 19,
   end_at: 24,
   status: true
 },{
+  id: 5,
   start_at: 10,
   end_at: 24,
   status: true
 },{
+  id: 6,
   start_at: 10,
   end_at: 24,
   status: true
 }]
 
 service.save!
-
 
 puts "FINISHED"

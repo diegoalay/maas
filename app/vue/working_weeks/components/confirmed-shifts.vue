@@ -18,6 +18,11 @@ export default {
         getDaySchedule: {
             type: Function,
             required: true
+        },
+
+        reloadData: {
+            type: Boolean,
+            required: true
         }
     },
 
@@ -31,11 +36,14 @@ export default {
             }],
             data: [],
             hoursByUser: {},
-            loading: false
+            loading: false,
+            time: []
         }
     },
 
-    mounted() {},
+    mounted() {
+        this.setFields()
+    },
 
     methods: {
         clearData(){
@@ -89,21 +97,29 @@ export default {
         },
 
         async getData(){
+            this.clearData()
+
+            this.data = []
+
             this.confirmed_shifts = await this.getConfirmedShiftsData()
-            this.loading = true
 
             for ( let index in this.schedule) {
                 let day_info = this.schedule[index]
-
-                console.log(day_info)
 
                 if (day_info.status) {
                     this.data.push({ day_id: day_info.day_id, details: []})
 
                     for(let time of this.getDaySchedule(index, this.schedule)) {
-                        let user = this.confirmed_shifts.find(e => e.hour_id === time.hour_id && e.day_id === day_info.day_id)
 
-                        if (user) {
+
+                        let find = this.confirmed_shifts.find(e =>
+                            e.hour_id === time.hour_id &&
+                            e.day_id === day_info.id
+                        )
+
+                        if (find) {
+                            let user = this.employees.find(e => e.id === find.user_id)
+
                             this.data[index].details.push({
                                 text: time.text,
                                 user_id: user.id,
@@ -111,10 +127,10 @@ export default {
                                 user_full_name: user.full_name
                             })
 
-                            if (!this.hoursByUser[user_id]) this.hoursByUser[user_id] = 0
-                            this.hoursByUser[user_id] += value
+                            if (!this.hoursByUser[user.id]) this.hoursByUser[user.id] = 0
+                            this.hoursByUser[user.id] += 1
                         } else {
-                           this.data[index].details.push({
+                        this.data[index].details.push({
                                 user_id: null,
                                 text: time.text
                             })
@@ -122,8 +138,6 @@ export default {
                     }
                 }
             }
-
-            this.loading = false
         },
 
         async getConfirmedShiftsData(){
@@ -143,15 +157,18 @@ export default {
     watch: {
         workingWeekId: {
             handler() {
-                this.clearData()
-                this.setFields()
                 this.getData()
-            },
-            inmediate: true
+            }
         },
 
         serviceSchedule(value){
             this.schedule = value
+        },
+
+        reloadData(value){
+            if (value) {
+                this.getData()
+            }
         }
     }
 }

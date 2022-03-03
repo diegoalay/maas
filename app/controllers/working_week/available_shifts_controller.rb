@@ -1,6 +1,6 @@
 class WorkingWeek::AvailableShiftsController < ApplicationSystemController
   before_action :set_working_week, only: %i[index create]
-  before_action :set_available_shift, only: %i[update show destroy]
+  before_action :set_available_shift, only: %i[update destroy]
 
   # GET /working_weeks/:working_week_id/available_shifts.json
   def index
@@ -12,21 +12,12 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
     end
   end
 
-  # GET /working_weeks/:working_week_id/available_shifts/:id.json
-  def show
-    respond_to do |format|
-      format.json do
-        set_working_week
-
-        return respond_with_not_found unless @available_shift
-
-        respond_with_successful(@available_shift)
-      end
-    end
-  end
-
   # POST /working_weeks/:working_week_id/available_shifts.json
   def create
+    if user_is_granted?()
+      respond_with_error("No tiene permisos para realizar esta acción.")
+    end
+
     @available_shift = @working_week.available_shifts.new(working_week_params)
 
     if @available_shift.save
@@ -38,6 +29,10 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
 
   # PATCH/PUT /working_weeks/:working_week_id/available_shifts/:id.json
   def update
+    if user_is_granted?()
+      respond_with_error("No tiene permisos para realizar esta acción.")
+    end
+
     return respond_with_not_found unless @available_shift
 
     if @available_shift.update(working_week_params)
@@ -47,18 +42,11 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
     end
   end
 
-  # DELETE /working_weeks/:working_week_id/available_shifts/:id.json
-  def destroy
-    return respond_with_not_found unless @available_shift
-
-    if @available_shift.destroy
-      respond_with_successful(@available_shift)
-    else
-      respond_available_shift_with_errors
-    end
-  end
-
   private
+
+  def user_is_granted?
+    return (working_week_params[:user_id] == current_user||current_user.is_admin?)
+  end
 
   def respond_available_shift_with_errors
     return respond_with_error(@available_shift.errors.full_messages.to_sentence)

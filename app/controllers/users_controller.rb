@@ -1,4 +1,5 @@
 class UsersController < ApplicationSystemController
+  before_action :validate_role, %i[update destroy]
   before_action :set_user, only: %i[update destroy]
 
   # GET /users or /users.json
@@ -30,13 +31,11 @@ class UsersController < ApplicationSystemController
   def new
   end
 
-  # GET /users/1/edit
-  def edit
-  end
-
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
+    @user.password = "123456"
+    @user.role = "employee"
     @user.user_creator = current_user
 
     if @user.save
@@ -48,7 +47,7 @@ class UsersController < ApplicationSystemController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-    return respond_with_error("No posee autorización para realizar esta acción.") unless @user.can_edit?(current_user)
+    return respond_with_error("No tiene permisos para realizar esta acción.") unless @user.can_edit?(current_user)
     return respond_with_not_found unless @user
 
     if @user.update(user_params)
@@ -75,6 +74,10 @@ class UsersController < ApplicationSystemController
     return respond_with_error(@user.errors.full_messages.to_sentence)
   end
 
+  def validate_role
+    respond_user_with_errors("No tienes permisos para realizar esta acción") unless (current_user.role !== "admin")
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find_by(id: params[:id])
@@ -83,7 +86,7 @@ class UsersController < ApplicationSystemController
   # Only allow a list of trusted parameters through.
   def user_params
     params.fetch(:user, {}).permit(
-      %i[first_name last_name]
+      %i[first_name last_name email color]
     )
   end
 end
