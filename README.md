@@ -50,7 +50,12 @@ db:
 
 Save the file and that's it for the environment configuration.
 
-5. Now you are read to run the rails server.
+5. Setup the database, you can do it with the following command.
+
+``` ruby
+rake db:reset
+```
+6. Now you are ready to run the rails server.
 
 
 ## Database Structure
