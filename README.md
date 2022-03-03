@@ -57,6 +57,13 @@ rake db:reset
 ```
 6. Now you are ready to run the rails server.
 
+7. After ran the seed you are going to have the following user:
+  - diego@maas-system.com [Admin]
+  - ernesto@maas-system.com [Employee]
+  - barbara@maas-system.com [Employee]
+  - benjamin@maas-system.com [Employee]
+
+The password for all the users: 123456
 
 ## Database Structure
 - users
