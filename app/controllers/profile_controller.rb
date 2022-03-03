@@ -18,7 +18,7 @@ class ProfileController < ApplicationSystemController
   end
 
   def respond_user_with_error
-      return respond_with_error(current_user.errors.full_messages.to_sentence)
+    return respond_with_error(current_user.errors.full_messages.to_sentence)
   end
 
   # Only allow a list of trusted parameters through.

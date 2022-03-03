@@ -1,5 +1,5 @@
 class UsersController < ApplicationSystemController
-  before_action :validate_role, %i[update destroy]
+  before_action :validate_admin_role, only: %i[update destroy]
   before_action :set_user, only: %i[update destroy]
 
   # GET /users or /users.json
@@ -72,10 +72,6 @@ class UsersController < ApplicationSystemController
 
   def respond_user_with_errors
     return respond_with_error(@user.errors.full_messages.to_sentence)
-  end
-
-  def validate_role
-    respond_user_with_errors("No tienes permisos para realizar esta acción") unless (current_user.role !== "admin")
   end
 
   # Use callbacks to share common setup or constraints between actions.

@@ -8,8 +8,8 @@ def create_user(user_details)
     color: user_details[:color],
     role: user_details[:role],
     last_name: user_details[:last_name],
-    user_creator: user.role == "employee" ? User.first : nil,
-    password: "123456"
+    user_creator: user.role == 'employee' ? User.first : nil,
+    password: '123456'
   })
 
   user.save!

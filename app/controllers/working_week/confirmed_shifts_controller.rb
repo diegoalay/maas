@@ -1,3 +1,4 @@
+
 class WorkingWeek::ConfirmedShiftsController < ApplicationSystemController
   before_action :set_working_week, only: %i[index]
 

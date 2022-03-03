@@ -1,0 +1,49 @@
+require: rubocop-rails
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "db/schema.rb"
+    - "db/seed/**/*"
+    - "Gemfile"
+    - "lib/tasks/*.rake"
+    - "bin/*"
+    - "config/routes.rb"
+    - "config/puma.rb"
+    - "config/spring.rb"
+    - "config/application.rb"
+    - "config/boot.rb"
+    - "config.ru"
+    - "config/environment.rb"
+    - "config/environments/test.rb"
+    - "config/environments/development.rb"
+    - "config/environments/production.rb"
+    - "config/initializers/**/*"
+    - "spec/spec_helper.rb"
+    
+Style/SymbolArray:
+  Enabled: true
+  
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false 
+
+Style/EmptyBlock:
+  Enabled: false
+
+Style/SpaceInsideBlockBraces: 
+  Enabled: false 
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+LeadingCommentSpace:
+  Enabled: false
+
+
+  

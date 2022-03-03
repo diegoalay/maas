@@ -193,7 +193,7 @@ export default {
             }
         },
 
-        async getAvailableShiftsData(key){
+        async getAvailableShiftsData(){
             return new Promise(async (resolve, reject) => {
                 const url = `working_weeks/${this.workingWeekId}/available_shifts.json`
                 await this.http.get(url).then(result => {

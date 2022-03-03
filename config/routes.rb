@@ -1,23 +1,22 @@
 Rails.application.routes.draw do
-  devise_for :users,
-  :controllers => {
-    :sessions => "users/sessions"
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
   },
-  :path => "",
-  :path_names => {
-    :sign_in  => "login",
+  path: '',
+  path_names: {
+    sign_in: 'login',
   }
 
   devise_scope :user do
-    get "/sign_out", to: "devise/sessions#destroy", as: :signout
+    get '/sign_out', to: 'devise/sessions#destroy', as: :signout
 
     authenticated :user do
-      # default route
-      root "working_weeks#index", as: :authenticated_root
+      #  default route
+      root 'working_weeks#index', as: :authenticated_root
 
-      # profile routes
-      get :profile, to: "profile#show"
-      put :profile, to: "profile#update"
+      #  profile routes
+      get :profile, to: 'profile#show'
+      put :profile, to: 'profile#update'
 
       resources :users
 
@@ -48,9 +47,9 @@ Rails.application.routes.draw do
       end
     end
     unauthenticated do
-      root "users/sessions#new", as: :unauthenticated_root
+      root 'users/sessions#new', as: :unauthenticated_root
 
-      get "*path" => redirect("/")
+      get '*path' => redirect('/')
     end
   end
 end

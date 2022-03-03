@@ -1,10 +1,10 @@
 class CreateServices < ActiveRecord::Migration[6.1]
   def change
     create_table :services do |t|
-      t.string    :name
-      t.bigint    :user_creator_id
+      t.string :name
+      t.bigint :user_creator_id
 
-      t.jsonb     :schedule
+      t.jsonb :schedule
 
       t.timestamps
     end

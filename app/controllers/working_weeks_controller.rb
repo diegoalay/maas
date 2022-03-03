@@ -7,7 +7,7 @@ class WorkingWeeksController < ApplicationSystemController
       format.html {}
       format.json do
 
-        respond_with_successful(WorkingWeek.index())
+        respond_with_successful(WorkingWeek.index)
       end
     end
   end
@@ -74,7 +74,7 @@ class WorkingWeeksController < ApplicationSystemController
   private
 
   def respond_working_week_with_errors
-    return respond_with_error(@working_week.errors.full_messages.to_sentence)
+    respond_with_error(@working_week.errors.full_messages.to_sentence)
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -89,7 +89,7 @@ class WorkingWeeksController < ApplicationSystemController
       schedule: [
         :start_at,
         :end_at,
-        :status,
+        :status
       ]
     )
   end

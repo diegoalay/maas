@@ -1,5 +1,6 @@
 class ServicesController < ApplicationSystemController
   before_action :set_service, only: %i[available_shifts update destroy]
+  before_action :validate_admin_role, only: %i[index show create update destroy]
 
   # GET /services or /services.json
   def index
@@ -58,7 +59,7 @@ class ServicesController < ApplicationSystemController
   end
 
   def available_shifts
-    respond_with_successful(@service.available_shifts())
+    return respond_with_successful(@service.available_shifts)
   end
 
   # DELETE /services/1 or /services/1.json
@@ -88,7 +89,7 @@ class ServicesController < ApplicationSystemController
     params.fetch(:service, {}).permit(
       :name,
       schedule: [
-        :id, # day id
+        :id,
         :start_at,
         :end_at,
         :status

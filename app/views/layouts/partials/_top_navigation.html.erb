@@ -5,7 +5,7 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <% if current_user.is_admin? %>
+      <% if current_user.admin? %>
         <b-navbar-nav>
           <b-nav-item-dropdown class="left-nav-item" text="Empleados" class="ml-5" right>
             <li>

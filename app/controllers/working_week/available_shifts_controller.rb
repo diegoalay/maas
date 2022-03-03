@@ -14,9 +14,7 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
 
   # POST /working_weeks/:working_week_id/available_shifts.json
   def create
-    if user_is_granted?()
-      respond_with_error("No tiene permisos para realizar esta acción.")
-    end
+    return respond_with_error('No tiene permisos para realizar esta acción.') unless user_is_granted?
 
     @available_shift = @working_week.available_shifts.new(working_week_params)
 
@@ -29,9 +27,7 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
 
   # PATCH/PUT /working_weeks/:working_week_id/available_shifts/:id.json
   def update
-    if user_is_granted?()
-      respond_with_error("No tiene permisos para realizar esta acción.")
-    end
+    return respond_with_error('No tiene permisos para realizar esta acción.') unless user_is_granted?
 
     return respond_with_not_found unless @available_shift
 
@@ -45,7 +41,7 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
   private
 
   def user_is_granted?
-    return (working_week_params[:user_id] == current_user||current_user.is_admin?)
+    return (working_week_params[:user_id] == current_user || current_user.admin?)
   end
 
   def respond_available_shift_with_errors
@@ -54,7 +50,7 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_working_week
-    @working_week= WorkingWeek.find_by(id: params[:working_week_id])
+    @working_week = WorkingWeek.find_by(id: params[:working_week_id])
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -67,8 +63,6 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
 
   # Only allow a list of trusted parameters through.
   def working_week_params
-    params.fetch(:available_shift, {}).permit(
-      %i[hour_id user_id day_id status]
-    )
+    params.fetch(:available_shift, {}).permit(%i[hour_id user_id day_id status])
   end
 end
