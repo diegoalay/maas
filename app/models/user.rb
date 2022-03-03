@@ -6,6 +6,10 @@ class User < ApplicationRecord
 
   belongs_to :user_creator, class_name: 'User', foreign_key: 'user_creator_id', optional: true
 
+  has_many :available_shifts, class_name: "WorkingWeek::AvailableShift"
+
+  before_destroy :can_be_destroyed
+
   enum role: {
     admin: 0,
     employee: 1
@@ -60,5 +64,12 @@ class User < ApplicationRecord
     return false if user != current_user
 
     true
+  end
+
+  private
+
+  def can_be_destroyed
+    errors.add(:base, "Existen turnos disponibles asignados a este usuario") and throw(:abort) unless WorkingWeek::ConfirmedShift.where(user_id: id).blank?
+    errors.add(:base, "Existen turnos asignados a este usuario") and throw(:abort) unless WorkingWeek::ConfirmedShift.where(user_id: id).blank?
   end
 end

@@ -128,7 +128,6 @@
         <component-header-list
             :title="`Semana actual ${tools.getWeekNumber()}`"
             :loading="loading"
-            @reloadList="getWorkingWeeks()"
         >
             <slot name="buttons">
                 <b-button
@@ -178,21 +177,23 @@
                 </b-row>
 
                 <component-available-shifts
-                    v-show="viewAvailableShifts() && serviceId && workingWeekId"
+                    v-show="viewAvailableShifts()"
                     :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
                     :employees="options.employees"
                     :working-week-id="workingWeekId"
+                    :service-id="serviceId"
                 >
                 </component-available-shifts>
 
                 <component-confirmed-shifts
-                    v-show="viewConfirmedShifts() && serviceId && workingWeekId"
+                    v-show="viewConfirmedShifts()"
                     :reload-data="viewConfirmedShifts()"
                     :get-day-schedule="getDaySchedule"
                     :service-schedule="serviceSchedule"
                     :employees="options.employees"
                     :working-week-id="workingWeekId"
+                    :service-id="serviceId"
                 >
                 </component-confirmed-shifts>
             </b-card-body>

@@ -7,10 +7,6 @@
             return {
                 data: [],
                 fields: [{
-                    label: 'Fecha de creación',
-                    key: 'created_at',
-                    sortable: true
-                },{
                     label: 'Nombre',
                     key: 'user_name',
                     sortable: true

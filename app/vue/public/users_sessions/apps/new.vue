@@ -30,7 +30,7 @@
                         this.$toast.success('Bienvenido.')
 
                         setTimeout(() => {
-                            window.location.href = '/dashboard'
+                            window.location.href = '/working_weeks'
                         }, 200)
                     } else {
                         this.$toast.error(result.error.message)

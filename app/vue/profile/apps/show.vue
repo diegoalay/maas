@@ -71,7 +71,7 @@ export default {
                         <b-col md="6" sm="6">
                             <b-form-group>
                                 <template #label>
-                                    Primer apellido <sup class="text-danger">*</sup>
+                                    Primer apellido
                                 </template>
 
                                 <b-form-input

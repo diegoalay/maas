@@ -1,6 +1,6 @@
 class ServicesController < ApplicationSystemController
+  before_action :validate_admin_role, only: %i[index show new createcreate update destroy]
   before_action :set_service, only: %i[available_shifts update destroy]
-  before_action :validate_admin_role, only: %i[index show create update destroy]
 
   # GET /services or /services.json
   def index

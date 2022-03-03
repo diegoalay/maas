@@ -48,6 +48,8 @@ ActiveRecord::Schema.define(version: 2022_03_02_031547) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "working_week_id"
     t.bigint "user_id"
+    t.index ["day_id"], name: "index_working_week_available_shifts_on_day_id"
+    t.index ["hour_id"], name: "index_working_week_available_shifts_on_hour_id"
     t.index ["user_id"], name: "index_working_week_available_shifts_on_user_id"
     t.index ["working_week_id"], name: "index_working_week_available_shifts_on_working_week_id"
   end
@@ -59,6 +61,8 @@ ActiveRecord::Schema.define(version: 2022_03_02_031547) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "working_week_id"
     t.bigint "user_id"
+    t.index ["day_id"], name: "index_working_week_confirmed_shifts_on_day_id"
+    t.index ["hour_id"], name: "index_working_week_confirmed_shifts_on_hour_id"
     t.index ["user_id"], name: "index_working_week_confirmed_shifts_on_user_id"
     t.index ["working_week_id"], name: "index_working_week_confirmed_shifts_on_working_week_id"
   end

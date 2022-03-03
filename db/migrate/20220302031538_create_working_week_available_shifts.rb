@@ -8,6 +8,9 @@ class CreateWorkingWeekAvailableShifts < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
+    add_index :working_week_available_shifts, :day_id
+    add_index :working_week_available_shifts, :hour_id
+
     add_reference :working_week_available_shifts, :working_week, foreign_key: true
     add_reference :working_week_available_shifts, :user, foreign_key: true
   end

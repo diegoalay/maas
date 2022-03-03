@@ -14,8 +14,6 @@ class WorkingWeek::AvailableShiftsController < ApplicationSystemController
 
   # POST /working_weeks/:working_week_id/available_shifts.json
   def create
-    return respond_with_error('No tiene permisos para realizar esta acción.') unless user_is_granted?
-
     @available_shift = @working_week.available_shifts.new(working_week_params)
 
     if @available_shift.save

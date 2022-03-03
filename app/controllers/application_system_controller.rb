@@ -27,6 +27,16 @@ class ApplicationSystemController < ApplicationController
   end
 
   def validate_admin_role
-    return respond_user_with_errors("No tienes permisos para realizar esta acción") unless current_user.admin?
+    unless current_user.admin?
+      respond_to do |format|
+        format.html {
+          redirect_to working_weeks_path
+        }
+        format.json do
+
+          return respond_with_error("No tienes permisos para realizar esta acción") unless current_user.admin?
+        end
+      end
+    end
   end
 end

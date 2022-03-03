@@ -52,6 +52,10 @@ body {
     vertical-align: middle;
 }
 
+.top-navbar {
+    visibility: hidden;
+}
+
 @media (max-width: 768px) {
     .card {
         padding: 0px !important;

@@ -118,9 +118,10 @@ class WorkingWeek::AvailableShift < ApplicationRecord
     #  sort employees with more confirmed hours at the moment
 
     #  I gave the following priorities
-    # formula -> p = ngp + csp + pn
-    #  pn = (1 * 0.20) if the current user has all the week taken
-    # p = (0.60 * neighboring_hours_frequency) + (0.40 * |(user_confirmed_shifts - average_confirmed_shifts)|) + pn
+    #  formula -> p = ngp + csp + pn
+    #  ngp = |confirmed_shifts - confirmed_shifts_average| * 0.20) if the current user has all the week taken
+    #  csp = (0.60 * neighboring_hours_frequency)
+    #  np = 1 if the user has all the hours of the day assigned
     #  based on the priority the day is going to be assigned
 
     priorities = []
@@ -136,7 +137,7 @@ class WorkingWeek::AvailableShift < ApplicationRecord
     confirmed_shifts_average = employees_availables.pluck(:confirmed_shifts).sum / employees_length
 
     employees_availables.each do |info|
-      ngp = (info[:confirmed_shifts] - confirmed_shifts_average).abs * 0.30
+      ngp = (info[:confirmed_shifts] - confirmed_shifts_average).abs * 0.40
       csp = info[:neighboring_hours_frequency] * 0.60
       np = info[:neighboring_hours_taken]
       priority = ngp + csp + np

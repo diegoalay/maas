@@ -25,7 +25,7 @@ export default {
         postForm(){
             const url = `/users.json`
 
-            this.http.post(url, {user: this.user}).then(result => {
+            this.http.post(url, {user: {...this.user, color: this.user.color['hex']}}).then(result => {
                 if (result.successful) {
                     this.$toast.success('Usuario creado exitosamente.')
 
@@ -49,16 +49,6 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        },
-
-        updateColor(){
-
-        }
-    },
-
-    watch: {
-        'user.color'(value){
-            console.log(value)
         }
     }
 }
@@ -121,7 +111,6 @@ export default {
                             <template #label> Color </template>
 
                             <color-picker
-                                @input="updateColor"
                                 v-model="user.color"
                                 :preset-colors="[
                                     '#f00', '#00ff00', '#00ff0055', 'rgb(201, 76, 76)', 'rgba(0,0,255,1)', 'hsl(89, 43%, 51%)', 'hsla(89, 43%, 51%, 0.6)'

@@ -10,6 +10,10 @@ export default {
             required: true
         },
 
+        serviceId: {
+            required: true
+        },
+
         employees: {
             type: Array,
             required: true
@@ -183,6 +187,13 @@ export default {
         },
 
         async getData(){
+            if (!this.serviceId || !this.workingWeekId) {
+                return
+            }
+
+            this.setFields()
+            this.clearData()
+
             this.available_shifts = await this.getAvailableShiftsData()
 
             for(let available of this.available_shifts) {
@@ -218,11 +229,14 @@ export default {
     watch: {
         workingWeekId: {
             handler() {
-                this.clearData()
-                this.setFields()
                 this.getData()
-            },
-            inmediate: true
+            }
+        },
+
+        serviceId: {
+            handler() {
+                this.getData()
+            }
         },
 
         serviceSchedule(value){
@@ -237,6 +251,7 @@ export default {
         <b-row class="text-center">
             <b-col>
                 <b-table-simple
+                    v-if="schedule.length > 0"
                     :bordered="true"
                     :small="true"
                     :fixed="true"

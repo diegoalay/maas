@@ -4,6 +4,10 @@ const routes =  [
     {
         path: "/working_weeks",
         component: appShiftsList
+    },
+    {
+        path: "/",
+        component: appShiftsList
     }
 ]
 

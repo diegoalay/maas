@@ -18,7 +18,7 @@ gem "kaminari"
 gem "pg", ">= 0.18", "< 2.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 6.1.4', '>= 6.1.4.6'
+gem 'rails', '6.1.4.6'
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'

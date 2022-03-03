@@ -10,6 +10,10 @@ export default {
             required: true
         },
 
+        serviceId: {
+            required: true
+        },
+
         employees: {
             type: Array,
             required: true
@@ -41,9 +45,7 @@ export default {
         }
     },
 
-    mounted() {
-        this.setFields()
-    },
+    mounted() {},
 
     methods: {
         clearData(){
@@ -68,7 +70,6 @@ export default {
         },
 
         getUserAssigned(hour_id, day_id){
-
             const find = this.confirmed_shifts.find(e =>
                 e.hour_id === hour_id &&
                 e.day_id === day_id
@@ -97,16 +98,22 @@ export default {
         },
 
         async getData(){
+            if (!this.serviceId || !this.workingWeekId) {
+                return
+            }
+
+            this.setFields()
             this.clearData()
 
             this.data = []
 
             this.confirmed_shifts = await this.getConfirmedShiftsData()
 
-            for ( let index in this.schedule) {
+            for (let index in this.schedule) {
                 let day_info = this.schedule[index]
 
                 if (day_info.status) {
+                    let data_index = this.data.length
                     this.data.push({ day_id: day_info.day_id, details: []})
 
                     for(let time of this.getDaySchedule(index, this.schedule)) {
@@ -120,7 +127,7 @@ export default {
                         if (find) {
                             let user = this.employees.find(e => e.id === find.user_id)
 
-                            this.data[index].details.push({
+                            this.data[data_index].details.push({
                                 text: time.text,
                                 user_id: user.id,
                                 user_color: user.color,
@@ -130,7 +137,7 @@ export default {
                             if (!this.hoursByUser[user.id]) this.hoursByUser[user.id] = 0
                             this.hoursByUser[user.id] += 1
                         } else {
-                        this.data[index].details.push({
+                        this.data[data_index].details.push({
                                 user_id: null,
                                 text: time.text
                             })
@@ -161,6 +168,12 @@ export default {
             }
         },
 
+        serviceId: {
+            handler() {
+                this.getData()
+            }
+        },
+
         serviceSchedule(value){
             this.schedule = value
         },
@@ -179,7 +192,7 @@ export default {
         <b-row class="text-center">
             <b-col>
                 <b-table-simple
-                    v-if="!loading"
+                    v-if="!loading && schedule.length > 0"
                     :bordered="true"
                     :small="true"
                     :fixed="true"

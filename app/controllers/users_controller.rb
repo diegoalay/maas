@@ -1,5 +1,5 @@
 class UsersController < ApplicationSystemController
-  before_action :validate_admin_role, only: %i[update destroy]
+  before_action :validate_admin_role
   before_action :set_user, only: %i[update destroy]
 
   # GET /users or /users.json

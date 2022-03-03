@@ -7,6 +7,9 @@ class CreateWorkingWeekConfirmedShifts < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
+    add_index :working_week_confirmed_shifts, :day_id
+    add_index :working_week_confirmed_shifts, :hour_id
+
     add_reference :working_week_confirmed_shifts, :working_week, foreign_key: true
     add_reference :working_week_confirmed_shifts, :user, foreign_key: true
   end
